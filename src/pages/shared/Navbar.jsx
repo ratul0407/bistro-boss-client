@@ -16,7 +16,7 @@ function Navbar() {
         <Link to="/menu">our menu</Link>
       </li>
       <li>
-        <Link to="/">our shop</Link>
+        <Link to="/shop/salad">our shop</Link>
       </li>
       <li>
         <Link>
