@@ -9,6 +9,7 @@ export default {
       },
       backgroundImage: {
         "featured-img": "url('./assets/home/featured.jpg')",
+        "authentication-bg": "url('./assets/others/authentication.png')",
       },
     },
   },

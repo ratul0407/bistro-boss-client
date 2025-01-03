@@ -24,7 +24,7 @@ function Navbar() {
         </Link>
       </li>
       <li>
-        <Link>Sign In</Link>
+        <Link to="/login">Sign In</Link>
       </li>
     </>
   );
