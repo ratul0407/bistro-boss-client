@@ -1,16 +1,17 @@
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import signInImg from "../../assets/others/authentication2.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   LoadCanvasTemplate,
   loadCaptchaEnginge,
   validateCaptcha,
 } from "react-simple-captcha";
-import { AuthContext } from "../../providers/AuthProvider";
+
 import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
 function Login() {
-  const { signInUser } = useContext(AuthContext);
+  const { signInUser } = useAuth();
   const captchaRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();

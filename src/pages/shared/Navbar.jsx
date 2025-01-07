@@ -1,12 +1,14 @@
 import { Link, NavLink } from "react-router-dom";
-import cartIcon from "../../assets/icon/cart.png";
-import { useContext } from "react";
-import { AuthContext } from "../../providers/AuthProvider";
-import Swal from "sweetalert2";
-function Navbar() {
-  const { user, logOut } = useContext(AuthContext);
-  console.log(user);
 
+import Swal from "sweetalert2";
+
+import { IoMdCart } from "react-icons/io";
+import useAuth from "../../hooks/useAuth";
+import useCart from "../../hooks/useCart";
+function Navbar() {
+  const { user, logOut } = useAuth();
+  const { cart } = useCart();
+  console.log(cart);
   const handleLogOut = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -44,11 +46,10 @@ function Navbar() {
       <li>
         <NavLink to="/shop/salad">our shop</NavLink>
       </li>
-      <li>
-        <NavLink to="/cart">
-          <img className="h-10 w-10 object-cover" src={cartIcon} />
-        </NavLink>
-      </li>
+      <button className="flex items-center">
+        <IoMdCart size={25} />
+        <div className="badge badge-secondary">{cart.length}</div>
+      </button>
 
       {!user ? (
         <li>
@@ -56,7 +57,6 @@ function Navbar() {
         </li>
       ) : (
         <li>
-          <span>{user?.displayName}</span>
           <button
             onClick={handleLogOut}
             className="btn bg-yellow-500 text-white border-none outline-yellow-900"

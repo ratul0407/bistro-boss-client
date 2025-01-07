@@ -3,12 +3,11 @@ import authenticationImg from "../../assets/others/authentication2.png";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
-import { useContext } from "react";
-import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
 function SignUp() {
   const navigate = useNavigate();
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useAuth();
   const {
     register,
     handleSubmit,

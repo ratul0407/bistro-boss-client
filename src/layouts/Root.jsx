@@ -17,7 +17,7 @@ function Root() {
 
       <div
         className={
-          noHeaderFooter && "flex items-center justify-center min-h-screen"
+          noHeaderFooter ? "flex items-center justify-center min-h-screen" : ""
         }
       >
         <Outlet />

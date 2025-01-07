@@ -27,7 +27,7 @@ function Menu() {
       />
 
       <SectionTitle heading="Today's offer" subHeading="Don't Miss" />
-      <MenuCategory items={todaysOffer} />
+      <MenuCategory title="salad" items={todaysOffer} />
 
       <Cover
         img={dessertImg}
