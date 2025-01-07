@@ -56,6 +56,7 @@ function Navbar() {
         </li>
       ) : (
         <li>
+          <span>{user?.displayName}</span>
           <button
             onClick={handleLogOut}
             className="btn bg-yellow-500 text-white border-none outline-yellow-900"

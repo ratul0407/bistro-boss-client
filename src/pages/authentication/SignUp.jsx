@@ -1,16 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authenticationImg from "../../assets/others/authentication2.png";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 function SignUp() {
-  const { createUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -18,6 +21,17 @@ function SignUp() {
     console.log(data);
     createUser(data.email, data.password).then((res) => {
       console.log(res);
+      updateUserProfile(data.name, data.photo)
+        .then(() => {
+          console.log("User Profile Info Updated");
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: "Sign In successful",
+          });
+          navigate("/");
+        })
+        .catch((err) => console.log(err));
     });
   };
   return (
@@ -49,6 +63,17 @@ function SignUp() {
                 {errors.name && (
                   <span className="text-red-500 text-xs">Name is required</span>
                 )}
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Photo URL</span>
+                </label>
+                <input
+                  type="url"
+                  placeholder="Enter Photo Url"
+                  {...register("photo", { required: true })}
+                  className="input input-bordered"
+                />
               </div>
               <div className="form-control">
                 <label className="label">
