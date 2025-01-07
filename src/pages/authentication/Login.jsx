@@ -1,14 +1,20 @@
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import signInImg from "../../assets/others/authentication2.png";
-import { Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useRef } from "react";
 import {
   LoadCanvasTemplate,
   loadCaptchaEnginge,
   validateCaptcha,
 } from "react-simple-captcha";
+import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 function Login() {
+  const { signInUser } = useContext(AuthContext);
   const captchaRef = useRef();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -17,18 +23,20 @@ function Login() {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    handleValidateCaptcha();
-    console.log(email, password);
-  };
 
-  const handleValidateCaptcha = () => {
     const user_captcha_value = captchaRef.current.value;
     if (validateCaptcha(user_captcha_value) === true) {
-      alert("True");
-    } else {
-      alert("False");
+      signInUser(email, password);
+      Swal.fire({
+        title: "Success",
+        icon: "success",
+        text: "successfully signed in",
+      });
+      return navigate(from, { replace: true });
     }
+    return alert("false captcha");
   };
+
   return (
     <div className="hero bg-authentication-bg shadow-2xl w-11/12 mx-auto py-12">
       <div className="hero-content flex-col lg:flex-row">

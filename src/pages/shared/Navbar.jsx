@@ -1,31 +1,69 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import cartIcon from "../../assets/icon/cart.png";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 function Navbar() {
+  const { user, logOut } = useContext(AuthContext);
+  console.log(user);
+
+  const handleLogOut = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Log out!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut();
+        Swal.fire({
+          title: "Success!",
+          text: "Log out successful.",
+          icon: "success",
+        });
+      }
+    });
+  };
   const links = (
     <>
       <li>
-        <Link to="/">Home</Link>
+        <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <Link to="/">Contact Us</Link>
+        <NavLink to="/contact">Contact Us</NavLink>
       </li>
       <li>
-        <Link to="/">dashboard</Link>
+        <NavLink to="/dashboard">dashboard</NavLink>
       </li>
       <li>
-        <Link to="/menu">our menu</Link>
+        <NavLink to="/menu">our menu</NavLink>
       </li>
       <li>
-        <Link to="/shop/salad">our shop</Link>
+        <NavLink to="/shop/salad">our shop</NavLink>
       </li>
       <li>
-        <Link>
+        <NavLink to="/cart">
           <img className="h-10 w-10 object-cover" src={cartIcon} />
-        </Link>
+        </NavLink>
       </li>
-      <li>
-        <Link to="/login">Sign In</Link>
-      </li>
+
+      {!user ? (
+        <li>
+          <Link to="/login">Sign In</Link>
+        </li>
+      ) : (
+        <li>
+          <button
+            onClick={handleLogOut}
+            className="btn bg-yellow-500 text-white border-none outline-yellow-900"
+          >
+            Log Out
+          </button>
+        </li>
+      )}
     </>
   );
   return (
