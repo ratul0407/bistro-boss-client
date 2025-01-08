@@ -9,11 +9,11 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.config";
-import useAxiosSecure from "../hooks/useAxiosSecure";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 function AuthProvider({ children }) {
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -49,7 +49,7 @@ function AuthProvider({ children }) {
       setUser(currentUser);
       if (currentUser) {
         const userInfo = { email: currentUser.email };
-        axiosSecure.post("/jwt", userInfo).then((res) => {
+        axiosPublic.post("/jwt", userInfo).then((res) => {
           console.log(res.data.token);
           if (res.data.token) {
             localStorage.setItem("access-token", res.data.token);

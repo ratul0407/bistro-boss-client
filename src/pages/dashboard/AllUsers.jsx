@@ -10,11 +10,7 @@ function AllUsers() {
   const { refetch, data: users = [] } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/users", {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("access-token")}`,
-        },
-      });
+      const res = await axiosSecure.get("/users");
 
       return res.data;
     },
@@ -79,7 +75,6 @@ function AllUsers() {
               <tbody>
                 {/* row 1 */}
                 {users.map((user, index) => {
-                  console.log(user.role);
                   return (
                     <tr key={user._id}>
                       <th>{++index}</th>

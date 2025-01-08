@@ -10,13 +10,13 @@ import {
 } from "react-icons/fa";
 import { FaMessage, FaShop } from "react-icons/fa6";
 import { IoMdMail } from "react-icons/io";
-import { IoContract } from "react-icons/io5";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import useCart from "../hooks/useCart";
+import useAdmin from "../hooks/useAdmin";
 
 function Dashboard() {
   const { cart } = useCart();
-  const isAdmin = true;
+  const { isAdmin } = useAdmin();
   return (
     <div className="flex">
       {/* dashboard sidebar */}
