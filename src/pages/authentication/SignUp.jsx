@@ -5,9 +5,21 @@ import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 function SignUp() {
   const navigate = useNavigate();
-  const { createUser, updateUserProfile } = useAuth();
+  const { createUser, updateUserProfile, googleSignIn } = useAuth();
+  const axiosPublic = useAxiosPublic();
+  const handleGoogleSignIn = () => {
+    googleSignIn().then((res) => {
+      console.log(res);
+      const userInfo = { email: res.user?.email, name: res.user?.displayName };
+      axiosPublic.post("/users", userInfo).then((res) => {
+        console.log(res.data);
+        navigate("/");
+      });
+    });
+  };
   const {
     register,
     handleSubmit,
@@ -23,12 +35,22 @@ function SignUp() {
       updateUserProfile(data.name, data.photo)
         .then(() => {
           console.log("User Profile Info Updated");
-          Swal.fire({
-            icon: "success",
-            title: "Success",
-            text: "Sign In successful",
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+          };
+          axiosPublic.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log("user added to the database");
+              reset();
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Sign In successful",
+              });
+              navigate("/");
+            }
           });
-          navigate("/");
         })
         .catch((err) => console.log(err));
     });
@@ -132,7 +154,10 @@ function SignUp() {
               <p>Or sign up with</p>
               <div className="flex items-center justify-center gap-8">
                 <FaFacebookF className="icon" />
-                <FaGoogle className="icon" />
+                <button className="btn" onClick={handleGoogleSignIn}>
+                  {" "}
+                  <FaGoogle className="icon" />
+                </button>
                 <FaGithub className="icon" />
               </div>
             </div>

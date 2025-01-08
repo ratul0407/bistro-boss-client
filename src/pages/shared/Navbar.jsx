@@ -46,10 +46,10 @@ function Navbar() {
       <li>
         <NavLink to="/shop/salad">our shop</NavLink>
       </li>
-      <button className="flex items-center">
+      <Link to="/dashboard/cart" className="flex items-center">
         <IoMdCart size={25} />
         <div className="badge badge-secondary">{cart.length}</div>
-      </button>
+      </Link>
 
       {!user ? (
         <li>
